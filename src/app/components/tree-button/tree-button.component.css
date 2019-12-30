@@ -1,0 +1,41 @@
+@keyframes skeleton {
+  from {
+    transform: translate(50%, 100%) scale(0);
+  }
+  to {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes shared {
+  from {
+    transform: translate(50%, 25%) scale(0);
+  }
+  to {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+.tree-button:hover .skeleton {
+  animation: skeleton 1s ease-in-out 1 forwards;
+  transform: translate(50%, 100%) scale(0);
+}
+
+.tree-button:hover .node {
+  animation: shared 1s ease-in-out 1s 1 forwards;
+  transform: translate(50%, 50%) scale(0);
+}
+
+.tree-button:hover .list1 {
+  animation: shared 1s ease-in-out 2s 1 forwards;
+  transform: translate(50%, 25%) scale(0);
+}
+
+.tree-button:hover .list2 {
+  animation: shared 1s ease-in-out 3s 1 forwards;
+  transform: translate(50%, 25%) scale(0);
+}
+
+.tree-svg {
+  height: 4rem;
+}

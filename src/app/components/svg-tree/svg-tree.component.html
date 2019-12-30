@@ -1,0 +1,33 @@
+<svg #zoomControl #svgElement width="100%" [attr.height]="height" style="border: solid 1px;">
+<!--<svg #zoomControl [attr.width]="width" [attr.height]="height" style="border: solid 1px;">-->
+<!--  <rect fill="none" [attr.width]="width" [attr.height]="height" pointer-events="all"/>-->
+  <g [attr.transform]="'translate(' + x + ',' + y + ') scale(' + zoom + ')'">
+      <rect *ngFor="let _ of ([minLevel, maxLevel] | range); let i = index"
+            width="100%"
+            [attr.height]="lineHeight"
+            [attr.fill]="(i % 2 === 0) ? 'transparent' : 'rgb(245, 245, 245)'"
+            [attr.y]="height/2 - lineHeight / 2 + ((i + minLevel) - (minLevel+maxLevel)/2) * lineHeight"
+            [attr.x]="- width * 2"
+            [attr.width]="width * 4"
+            pointer-events="none"/>
+    <g class="links">
+      <line *ngFor="let l of links"
+            stroke-width="2"
+            [attr.x1]="l.source.x || 0"
+            [attr.y1]="l.source.y || 0"
+            [attr.x2]="l.target.x || 0"
+            [attr.y2]="l.target.y || 0"/>
+    </g>
+    <g class="nodes">
+      <g *ngFor="let n of nodes; trackBy: nodeIdentity" [attr.transform]="'translate(' + n.x + ',' + n.y + ')'">
+        <g *ngIf="n.synthetic === false">
+          <circle *ngIf="n.s === 'F'" r="5" fill="rgb(31,119,180)" [id]="'node_' + n.id" [ngClass]="'drag_node'"/>
+          <rect *ngIf="n.s !== 'F'" width="10" height="10" x="-5" y="-5" fill="rgb(31,119,180)" [id]="'node_' + n.id" [ngClass]="'drag_node'"/>
+          <text x="0" y="15" text-anchor="middle">{{n.surname}}</text>
+          <text x="0" y="25" text-anchor="middle">{{n.name}}</text>
+          <text x="0" y="35" text-anchor="middle">{{n.dates}}</text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

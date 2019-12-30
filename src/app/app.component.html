@@ -1,0 +1,84 @@
+<div id="app">
+  <app-nav-bar [siteName]="siteName"
+               [pages]="navBarOptions"
+               (pageChange)="onNavBarChange($event)">
+  </app-nav-bar>
+  <div role="main" class="container-fluid">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div *ngIf="!selectedPerson">
+          <div class="h4 my-2">Выберите человека для редактирования</div>
+          <app-person-list [persons]="familyTree.indi"
+                           (personChange)="selectedPerson = $event"
+                           (personAdd)="onPersonAdd()"></app-person-list>
+        </div>
+        <app-person-editor *ngIf="selectedPerson"
+                           [person]="selectedPerson"
+                           [tree]="familyTree"
+                           (changePerson)="selectedPerson = $event"
+                           (back)="selectedPerson = null"></app-person-editor>
+        <div class="text-center">
+          <app-tree-button (click)="drawTree()"></app-tree-button>
+          <app-wind-button (click)="onShakeEvent.emit()"></app-wind-button>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 p-0">
+        <app-svg-tree *ngIf="familyTreeForDraw?.indi?.length"
+                      [shakeEvent]="onShakeEvent"
+                      [tree]="familyTreeForDraw"
+                      (tapPerson)="onPersonSelect($event)"></app-svg-tree>
+      </div>
+    </div>
+  </div>
+  <app-scroll-top></app-scroll-top>
+</div>
+
+<ng-template #infoModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Справка</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p><a href="https://wikipedia.org/wiki/GEDCOM">GEDCOM</a> - это спецификация для обмена генеалогическими данными
+      между разными генеалогическими программами, разработанная Церковью Иисуса Христа Святых последних дней.
+      Большинство современных генеалогических компьютерных программ поддерживает импорт/экспорт данных в формате
+      GEDCOM.</p>
+    <p>Данная платформа помогает просматривать и создавать GEDCOM документы для последующего их импорта в другие более
+      специализированные и профессиональные программы.</p>
+    <div class="alert alert-danger" role="alert">
+      Внимание! Платформа использует лишь малую часть возможностей GEDCOM формата. Я крайне не рекомендую пересохранять
+      GEDCOM документы, созданные в других программах. Это может привести к потере огромного количества важных данных.
+    </div>
+    <p>На главном экране приложения можно выбрать человека из списка или нажать на символ человека в дереве для его
+      редактирования. Для создания нового члена семьи необходимо нажать на кнопку "Создать человека" на главном экране.
+      После этого откроется экран редактирования человека, где можно ввести все необходимые данные. Все изменения
+      сохраняются в автоматическом режиме по мере ввода новых данных. Для выхода на главный экран нажмите на стрелку
+      назад в верхней части экрана.</p>
+    <p>Каждому человеку можно указать мать, отца и супругов (мужей, жён). Для добавления ребёнка или братьев/сестёр
+      необходимо создать нового человека и указать ему соответствующих родителей.</p>
+    <div class="alert alert-info" role="alert">
+      Для уменьшения нагрузки на устройство дерево не обновляется в автоматическом режиме. После внесения правок
+      необходимо нажать на кнопку "Обновить дерево" для отображения изменений.
+    </div>
+    <p>При построении дерева используется симуляция притягивания и отталкивания узлов. По этой причине узлы
+      больших деревьев могут располагаться не оптимальным образом. Узлы можно как перетаскивать
+      самому (за кружки или квадратики), так и встряхнуть дерево, чтобы помочь ему немного перестроиться. Дерево
+      обладает полной поддержкой сенсорных экранов. Для прокрутки страницы в самый вверх на сенсорных экранах
+      воспользуйтесь специальной кнопкой в правом нижнем углу экрана.</p>
+    <div class="alert alert-danger" role="alert">
+      Сайт не хранит никакие пользовательские данные. После закрытия браузера все данные будут безвозвратно утеряны.
+      Экспортируйте все данные в GEDCOM файл перед закрытием вкладки браузера.
+    </div>
+    <div class="alert alert-info" role="alert">
+      Программа не рассчитана на работу с циклическими зависимостями. Если не хотите сломать скрипты и потерять все свои
+      несохранённые изменения, то, пожалуйста, следите и не создавайте циклических зависимостей.
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Закрыть</button>
+  </div>
+</ng-template>
+
+

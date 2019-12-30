@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">{{siteName}}</a>
+  <button class="navbar-toggler" type="button" (click)="showMenu = !showMenu">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div [ngClass]="{'collapse':1, 'navbar-collapse':1, 'show':showMenu}">
+    <ul class="navbar-nav mr-auto">
+      <li *ngFor="let pageName of pages"
+          [ngClass]="{'nav-item':1, 'mr-2':1, 'active': pageName === currentPage}">
+        <a [ngClass]="{'nav-link':1, 'disabled': pageName === currentPage}" href="#"
+           (click)="onChange($event, pageName)">{{pageName}}</a>
+      </li>
+    </ul>
+<!--    <div class="d-inline-block">-->
+<!--      lang-->
+<!--    </div>-->
+  </div>
+</nav>

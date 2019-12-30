@@ -1,0 +1,56 @@
+@keyframes wild-scale {
+  from {
+    transform: scale(0, 1);
+  }
+  to {
+    transform: scale(1, 1);
+  }
+}
+
+@keyframes wild-transform {
+  from {
+    transform: translate(-100%, 0);
+  }
+  to {
+    transform: translate(0, 0);
+  }
+}
+
+.wind-button:hover .wind1 {
+  animation: wild-scale 1s ease-in-out 1 forwards;
+  transform: scale(0, 1);
+}
+
+.wind-button:hover .wind2 {
+  animation: wild-scale 1s ease-in-out 0.5s 1 forwards;
+  transform: scale(0, 1);
+}
+
+.wind-button:hover .wind1-1 {
+  animation: wild-scale 2s ease-in-out 1 forwards;
+  transform: scale(0, 1);
+}
+
+.wind-button:hover .wind3 {
+  animation: wild-scale 1s ease-in-out 1s 1 forwards;
+  transform: scale(0, 1);
+}
+
+.wind-button:hover .leaf3 {
+  animation: wild-transform 1s ease-in-out 1s 1 forwards;
+  transform: translate(-100%, 0);
+}
+
+.wind-button:hover .wind4 {
+  animation: wild-scale 1s ease-in-out 1.5s 1 forwards;
+  transform: scale(0, 1);
+}
+
+.wind-button:hover .leaf4 {
+  animation: wild-transform 1s ease-in-out 1.5s 1 forwards;
+  transform: translate(-100%, 0);
+}
+
+.wind-svg {
+  height: 4rem;
+}

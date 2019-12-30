@@ -1,0 +1,107 @@
+<div class="my-2">
+  <img src="assets/left-arrow.svg" (click)="onBack()" class="h4 p-2 back-button" title="Назад">
+  <span class="h4 ml-2">{{chooseTitle || 'Редактор человека'}}</span>
+</div>
+<div *ngIf="!choosePerson">
+  <div class="form-group">
+    <label for="surname">Фамилия</label>
+    <input type="text" class="form-control" id="surname" placeholder="Введите фамилию" [(ngModel)]="person.surname">
+  </div>
+  <div class="form-group">
+    <label for="name">Имя и отчество</label>
+    <input type="text" class="form-control" id="name" placeholder="Введите имя и отчество" [(ngModel)]="person.name">
+  </div>
+  <div class="form-group">
+    <label>Пол</label><br/>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label *ngFor="let o of SEX_MAPPER"
+             [ngClass]="{'btn':1,'btn-secondary':1,'active':person.sex===o.v}"
+             (click)="person.sex = o.v">
+        <input type="radio" name="options" autocomplete="off"> {{o.n}}
+      </label>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Дата рождения:</label>
+    <app-date-input [date]="person.birthsday"></app-date-input>
+  </div>
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="isAlive" [(ngModel)]="person.isAlive"
+           [checked]="person.isAlive">
+    <label class="form-check-label" for="isAlive">Живой</label>
+  </div>
+  <div *ngIf="!person.isAlive" class="form-group">
+    <label>Дата смерти:</label>
+    <app-date-input [date]="person.death"></app-date-input>
+  </div>
+  <div>
+    Мать:
+    <span *ngIf="mother">
+      <a href="#" (click)="onPersonChange(mother)">{{mother.surname}} {{mother.name}}</a>
+      <a href="#" (click)="deleteMother()" class="mx-2">
+        <img src="assets/delete.svg" style="height:1rem" alt="Удалить" title="Удалить">
+      </a>
+    </span>
+    <span *ngIf="!mother">
+      <span>Неизвестно</span>
+      <a href="#" (click)="changeMother()" class="mx-2">
+        <img src="assets/pencil-edit-button.svg" style="height:1rem" alt="Редактировать" title="Редактировать">
+      </a>
+    </span>
+  </div>
+  <div>
+    Отец:
+    <span *ngIf="father">
+      <a href="#" (click)="onPersonChange(father)">{{father.surname}} {{father.name}}</a>
+      <a href="#" (click)="deleteFather()" class="mx-2">
+        <img src="assets/delete.svg" style="height:1rem" alt="Удалить" title="Удалить">
+      </a>
+    </span>
+    <span *ngIf="!father">
+      <span>Неизвестно</span>
+      <a href="#" (click)="changeFather()" class="mx-2">
+        <img src="assets/pencil-edit-button.svg" style="height:1rem" alt="Редактировать" title="Редактировать">
+      </a>
+    </span>
+  </div>
+  <div *ngIf="brothers && brothers.length > 0">
+    Родные братья и сёстры:
+    <span *ngFor="let b of brothers; let i = index">
+      <a href="#"
+         (click)="onPersonChange(b)">
+        <span *ngIf="b.surname">{{b.surname}}</span><span *ngIf="b.name"> {{b.name}}</span></a><span
+      *ngIf="(i + 1) !== brothers.length">, </span>
+    </span>
+  </div>
+  <div>
+    Супруги:
+    <span *ngFor="let s of spouses; let i = index">
+      <a href="#" (click)="onPersonChange(s)">
+        <span *ngIf="s.surname">{{s.surname}}</span><span *ngIf="s.name"> {{s.name}}</span>
+      </a>
+      <a href="#" (click)="deleteSpouse(s)" class="mx-2">
+        <img src="assets/delete.svg" style="height:1rem" alt="Удалить" title="Удалить">
+      </a><span *ngIf="(i + 1) !== spouses.length">, </span>
+    </span>
+    <a href="#" (click)="addSpouse()" class="mx-2">
+      <img src="assets/add.svg" style="height:1rem" alt="Добавить" title="Добавить">
+    </a>
+  </div>
+  <div *ngIf="children && children.length > 0">
+    Дети:
+    <span *ngFor="let c of children; let i = index">
+     <a href="#"
+        (click)="onPersonChange(c)">
+       <span *ngIf="c.surname">{{c.surname}}</span><span *ngIf="c.name"> {{c.name}}</span></a><span
+      *ngIf="(i + 1) !== children.length">, </span>
+    </span>
+  </div>
+  <div class="text-right">
+    <button class="btn btn-primary" (click)="deletePerson()">Удалить человека</button>
+  </div>
+</div>
+<div *ngIf="choosePerson">
+  <app-person-list [persons]="filter ? filter(tree) : tree.indi"
+                   (personChange)="selected($event)"
+                   (personAdd)="added()"></app-person-list>
+</div>

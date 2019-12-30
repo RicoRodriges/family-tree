@@ -1,0 +1,15 @@
+<div class="input-group">
+  <input type="number" [class.form-control]="true" [class.is-invalid]="!validYear" placeholder="Год" [(ngModel)]="year" (ngModelChange)="onChange()">
+  <select [class.custom-select]="true" [class.is-invalid]="!validMonth" [(ngModel)]="month" (ngModelChange)="onChange()">
+    <option [value]="-1">Месяц</option>
+    <option *ngFor="let m of MONTH_MAPPER; let i = index" [value]="i">{{m}}</option>
+  </select>
+<!--  <div class="input-group-append" ngbDropdown>-->
+<!--    <button class="btn btn-outline-secondary"-->
+<!--            ngbDropdownToggle>{{month !== -1 ? MONTH_MAPPER[month] : 'Месяц'}}</button>-->
+<!--    <div ngbDropdownMenu>-->
+<!--      <button *ngFor="let m of MONTH_MAPPER; let i = index" (click)="month = i; onChange()" ngbDropdownItem>{{m}}</button>-->
+<!--    </div>-->
+<!--  </div>-->
+  <input type="number" [class.form-control]="true" [class.is-invalid]="!validDate" placeholder="День" [(ngModel)]="day" (ngModelChange)="onChange()">
+</div>
